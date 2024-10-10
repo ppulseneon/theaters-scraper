@@ -1,0 +1,1 @@
+quicktickets_url = 'https://quicktickets.ru'
