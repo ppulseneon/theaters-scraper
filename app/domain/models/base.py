@@ -1,7 +1,6 @@
-from peewee import Model
+from peewee import Model, SqliteDatabase
 
-from app.domain.database import database
-
+database = SqliteDatabase('app/domain/storage/theaters.db')
 
 class BaseModel(Model):
     """
