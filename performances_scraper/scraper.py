@@ -17,6 +17,8 @@ class PerformancesScraper:
 
         # todo: формировать результат в модель представления
 
+        # todo: скрапить информацию непосредственно из more_ref для полноты картины
+
         if response.status_code != 200:
             return False
 
