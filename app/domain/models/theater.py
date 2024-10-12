@@ -42,3 +42,15 @@ class Theater(BaseModel):
     contact_phone = CharField(null=True)
     created_at = DateTimeField(default=datetime.datetime.now)
     is_deleted = BooleanField(default=False)
+
+    @staticmethod
+    def to_response(theater) -> dict:
+        return {
+            'id': theater.id,
+            'title': theater.title,
+            'description': theater.description,
+            'site_url': theater.site_url,
+            'image_url': theater.image_url,
+            'address': theater.address,
+            'contact_phone': theater.contact_phone,
+        }
