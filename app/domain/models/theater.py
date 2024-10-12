@@ -21,6 +21,8 @@ class Theater(BaseModel):
             Ссылка на главный сайт (nullable)
         scrap_url : CharField
             Ссылка на страницу для скрапа
+        image_url : CharField
+            Ссылка на изображение театра (nullable)
         address : CharField
             Адрес театра (nullable)
         contact_phone : CharField
@@ -35,6 +37,7 @@ class Theater(BaseModel):
     description = CharField(null=True)
     site_url = CharField(null=True)
     scrap_url = CharField()
+    image_url = CharField(null=True)
     address = CharField(null=True)
     contact_phone = CharField(null=True)
     created_at = DateTimeField(default=datetime.datetime.now)

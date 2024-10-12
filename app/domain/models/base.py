@@ -1,6 +1,6 @@
 from peewee import Model, SqliteDatabase
 
-theaters_database = SqliteDatabase('app/domain/storage/theaters.db')
+database = SqliteDatabase('app/domain/storage/theaters.db')
 
 class BaseModel(Model):
     """
@@ -12,4 +12,4 @@ class BaseModel(Model):
             Объект базы данных
     """
     class Meta:
-        database = theaters_database
+        database = database

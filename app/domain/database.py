@@ -23,7 +23,18 @@ def create_default_values():
 
     # todo: добавить логгирование
 
-    opera_and_ballet_theatre = Theater.create(title='Донецкий театр оперы и балета',
-        scrap_url='https://quicktickets.ru/doneck-teatr-opery-i-baleta')
+    opera_and_ballet_theatre = Theater.create(
+        title='Донецкий театр оперы и балета',
+        description='Донецкий государственный академический театр оперы и балета является неотъемлемой частью культуры Донбасса. '
+                    'За 90 лет своего существования он вписал яркую страницу в летопись театрального искусства.'
+                    'Коллективом театра осуществлено более 300 постановок опер, балетов, оперетт, музыкальных комедий,'
+                    'детских музыкальных сказок по произведениям отечественных и зарубежных композиторов, а также современных авторов.'
+                    'Нет ни одного признанного классического произведения, с которым театр не'
+                    'познакомил бы донецкого зрителя за период своей творческой деятельности.',
+        site_url='https://donbassopera.ru',
+        scrap_url='https://quicktickets.ru/doneck-teatr-opery-i-baleta',
+        image_url='https://upload.wikimedia.org/wikipedia/commons/f/f0/Donezk_Zentrum_Oper.JPG',
+        address='Донецкая народная республика, Донецк, ул. Артёма, д. 82',
+        contact_phone='+7(856) 304-60-19')
 
     opera_and_ballet_theatre.save()
