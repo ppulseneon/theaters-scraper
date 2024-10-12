@@ -4,6 +4,9 @@ from peewee import AutoField, CharField, BooleanField, DateTimeField
 
 from app.domain.models.base import BaseModel
 
+SCRAP_TYPE_CHOICES = [
+    ('quick tickets', 'quick_tickets')
+]
 
 class Theater(BaseModel):
     """
@@ -37,6 +40,7 @@ class Theater(BaseModel):
     description = CharField(null=True)
     site_url = CharField(null=True)
     scrap_url = CharField()
+    scrap_type = CharField(choices=SCRAP_TYPE_CHOICES)
     image_url = CharField(null=True)
     address = CharField(null=True)
     contact_phone = CharField(null=True)

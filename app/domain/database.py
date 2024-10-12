@@ -1,6 +1,6 @@
 from app.domain.models.base import database
 from app.domain.models.performance import Performance
-from app.domain.models.theater import Theater
+from app.domain.models.theater import Theater, SCRAP_TYPE_CHOICES
 
 tables = [Theater, Performance]
 
@@ -23,6 +23,8 @@ def create_default_values():
 
     # todo: добавить логгирование
 
+    scrap_types = dict(SCRAP_TYPE_CHOICES)
+
     opera_and_ballet_theatre = Theater.create(
         title='Донецкий театр оперы и балета',
         description='Донецкий государственный академический театр оперы и балета является неотъемлемой частью культуры Донбасса. '
@@ -33,6 +35,7 @@ def create_default_values():
                     'познакомил бы донецкого зрителя за период своей творческой деятельности.',
         site_url='https://donbassopera.ru',
         scrap_url='https://quicktickets.ru/doneck-teatr-opery-i-baleta',
+        scrap_type= scrap_types.get('quick tickets'),
         image_url='https://upload.wikimedia.org/wikipedia/commons/f/f0/Donezk_Zentrum_Oper.JPG',
         address='Донецкая народная республика, Донецк, ул. Артёма, д. 82',
         contact_phone='+7(856) 304-60-19')
