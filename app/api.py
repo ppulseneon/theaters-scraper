@@ -1,4 +1,4 @@
-from flask import app, Flask
+from flask import Flask
 
 from app.controllers.performances_controller import performances_controller
 from app.controllers.theaters_controller import theaters_controller
