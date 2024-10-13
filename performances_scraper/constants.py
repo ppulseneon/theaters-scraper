@@ -1,1 +1,1 @@
-quicktickets_url = 'https://quicktickets.ru'
+QUICKTICKETS_URL = 'https://quicktickets.ru'
