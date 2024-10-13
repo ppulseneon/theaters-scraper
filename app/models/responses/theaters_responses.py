@@ -2,7 +2,7 @@ from flask import jsonify
 
 from app.domain.models.theater import Theater
 
-def get_theaters_response(theaters: list[Theater]) -> jsonify():
+def get_theaters_response(theaters: list[Theater]) -> jsonify:
     """
         Метод формирует ответ для запроса на получение театров
     """
