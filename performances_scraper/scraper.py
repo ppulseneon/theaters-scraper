@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
+from app.constants.scrap_type import ScrapTypes
+from app.domain.models.performance import Performance
+from app.domain.models.theater import Theater
 from performances_scraper.constants import quicktickets_url
 
 
@@ -8,11 +11,17 @@ class PerformancesScraper:
     def __init__(self, theaters):
         self.theaters = theaters
 
-    def scrap(self):
-        # todo: реализовать подбор типа скрапа из объекта театра по типу полю типа подбора
-        pass
+    def scrap(self, theater: Theater) -> Performance:
+        """
+            Скрапим театр
+        """
 
-    def _scrap_by_quicktickets(self, theater):
+        match theater.scrap_type:
+            case ScrapTypes.quick_tickets:
+                return self._scrap_by_quicktickets(theater)
+
+
+    def _scrap_by_quicktickets(self, theater) -> Performance:
         response = requests.get(theater.site_url)
 
         # todo: формировать результат в модель представления

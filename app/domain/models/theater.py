@@ -1,12 +1,10 @@
 import datetime
 
 from peewee import AutoField, CharField, BooleanField, DateTimeField
+from peewee_enum_field import EnumField
 
+from app.constants.scrap_type import ScrapTypes
 from app.domain.models.base import BaseModel
-
-SCRAP_TYPE_CHOICES = [
-    ('quick tickets', 'quick_tickets')
-]
 
 class Theater(BaseModel):
     """
@@ -40,7 +38,7 @@ class Theater(BaseModel):
     description = CharField(null=True)
     site_url = CharField(null=True)
     scrap_url = CharField()
-    scrap_type = CharField(choices=SCRAP_TYPE_CHOICES)
+    scrap_type = EnumField(ScrapTypes)
     image_url = CharField(null=True)
     address = CharField(null=True)
     contact_phone = CharField(null=True)

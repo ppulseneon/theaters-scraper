@@ -1,6 +1,6 @@
 from app.domain.models.base import database
 from app.domain.models.performance import Performance
-from app.domain.models.theater import Theater, SCRAP_TYPE_CHOICES
+from app.domain.models.theater import Theater
 
 tables = [Theater, Performance]
 
