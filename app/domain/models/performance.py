@@ -5,6 +5,7 @@ from peewee import ForeignKeyField
 
 from app.domain.models.base import BaseModel
 from app.domain.models.theater import Theater
+from app.services.theater_service import TheaterService
 
 DAY_OF_WEEK_CHOICES = [
     ('monday', 'Понедельник'),
@@ -46,6 +47,10 @@ class Performance(BaseModel):
             Не удалена ли запись из базы данных
     """
 
+    # todo: учитывать сессии представлений (нужно ли?)
+
+    # todo: переделать дни недели под enum
+
     id = AutoField(primary_key=True)
     theater = ForeignKeyField(Theater)
     title = CharField()
@@ -58,3 +63,19 @@ class Performance(BaseModel):
     created_at = DateTimeField(default=datetime.datetime.now)
     is_expire = BooleanField(default=False)
     is_deleted = BooleanField(default=False)
+
+    @staticmethod
+    def to_response(performance) -> dict:
+        theater = TheaterService.get_by_id(performance.theater)
+
+        return {
+            'id': performance.id,
+            'title': performance.title,
+            'theater': Theater.to_response(theater),
+            'type': performance.type,
+            'description': performance.description,
+            'age_restrictions': performance.age_restrictions,
+            'release_at': performance.release_at,
+            'day_of_week': performance.day_of_week,
+            'preview_url': performance.preview_url
+        }

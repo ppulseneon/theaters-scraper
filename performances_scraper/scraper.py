@@ -1,6 +1,10 @@
+import bs4
 import requests
 from bs4 import BeautifulSoup
 
+from app.constants.scrap_type import ScrapTypes
+from app.domain.models.performance import Performance
+from app.domain.models.theater import Theater
 from performances_scraper.constants import QUICKTICKETS_URL
 
 
@@ -8,19 +12,39 @@ class PerformancesScraper:
     def __init__(self, theaters):
         self.theaters = theaters
 
-    def scrap(self):
+    def scrap(self) -> list[Performance]:
         results = []
         for theater in self.theaters:
             result = None
-            if theater.scrap_type == 'quick_tickets':
+            if theater.scrap_type == ScrapTypes.quick_tickets:
                 result = self._scrap_by_quicktickets(theater)
-            if theater.scrap_type == 'another_site':
-                raise NotImplementedError()
             if result:
                 results.extend(result)
 
+        return results
+
+    def _scrap_by_quicktickets(self, theater: Theater) -> list[Performance] | None:
+        response = requests.get(theater.site_url, timeout=20)
+
+        # todo: формировать результат в модель представления
+        # todo: скрапить информацию непосредственно из more_ref для полноты картины
+
+        if response.status_code != 200:
+            return None
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+        result = []
+
+        list_elements = soup.find(id='elems-list')
+        div_elements = list_elements.find_all('div')
+        for div in div_elements:
+            subres = self.__parse_quicktickets_div(div)
+            if subres is not None:
+                result.append(subres)
+        return result
+
     @staticmethod
-    def __parse_quicktickets_div(div):
+    def __parse_quick_tickets_div(div: bs4.element) -> Performance | None:
         performance = {}
 
         c_elem = div.find(class_='c')
@@ -53,24 +77,3 @@ class PerformancesScraper:
         performance['sessions'] = sessions
 
         return performance
-
-    def _scrap_by_quicktickets(self, theater):
-        response = requests.get(theater.site_url, timeout=20)
-
-        # todo: формировать результат в модель представления
-
-        # todo: скрапить информацию непосредственно из more_ref для полноты картины
-
-        if response.status_code != 200:
-            return False
-
-        soup = BeautifulSoup(response.text, 'html.parser')
-        result = []
-
-        list_elements = soup.find(id='elems-list')
-        div_elements = list_elements.find_all('div')
-        for div in div_elements:
-            subres = self.__parse_quicktickets_div(div)
-            if subres is not None:
-                result.append(subres)
-        return result
