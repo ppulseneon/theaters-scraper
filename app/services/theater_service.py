@@ -11,6 +11,6 @@ class TheaterService:
         return theaters
 
     @staticmethod
-    def get_by_id(id) -> Theater:
-        theater = Theater.get(Theater.id == id and Theater.is_deleted is not True)
+    def get_by_id(theater_id) -> Theater:
+        theater = Theater.get(Theater.id == theater_id and Theater.is_deleted is not True)
         return theater

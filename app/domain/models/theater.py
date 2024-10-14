@@ -3,7 +3,7 @@ import datetime
 from peewee import AutoField, CharField, BooleanField, DateTimeField
 from peewee_enum_field import EnumField
 
-from app.constants.scrap_type import ScrapTypes
+from app.enums.scrap_type import ScrapTypes
 from app.domain.models.base import BaseModel
 
 class Theater(BaseModel):
@@ -44,6 +44,10 @@ class Theater(BaseModel):
     contact_phone = CharField(null=True)
     created_at = DateTimeField(default=datetime.datetime.now)
     is_deleted = BooleanField(default=False)
+
+    @staticmethod
+    def to_response_list(theaters: list['Theater']) -> list[dict]:
+        return [Theater.to_response(theater) for theater in theaters]
 
     @staticmethod
     def to_response(theater) -> dict:

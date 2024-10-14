@@ -2,10 +2,10 @@ import bs4
 import requests
 from bs4 import BeautifulSoup
 
-from app.constants.scrap_type import ScrapTypes
+from app.enums.scrap_type import ScrapTypes
 from app.domain.models.theatrical_performance import TheatricalPerformance
 from app.domain.models.theater import Theater
-from performances_scraper.constants import QUICKTICKETS_URL
+from performances_scraper.constants import QUICK_TICKETS_URL
 
 
 class PerformancesScraper:
@@ -17,13 +17,13 @@ class PerformancesScraper:
         for theater in self.theaters:
             result = None
             if theater.scrap_type == ScrapTypes.quick_tickets:
-                result = self._scrap_by_quicktickets(theater)
+                result = self._scrap_by_quick_tickets(theater)
             if result:
                 results.extend(result)
 
         return results
 
-    def _scrap_by_quicktickets(self, theater: Theater) -> list[TheatricalPerformance] | None:
+    def _scrap_by_quick_tickets(self, theater: Theater) -> list[TheatricalPerformance] | None:
         response = requests.get(theater.site_url, timeout=20)
 
         # todo: формировать результат в модель представления
@@ -54,8 +54,8 @@ class PerformancesScraper:
         name = c_elem.find(class_='underline').text
         age = c_elem.find(class_='ageRestriction').text
         description = c_elem.find(class_='d').text
-        more = QUICKTICKETS_URL + c_elem.find(class_='more')['href']
-        buy = QUICKTICKETS_URL + c_elem.find(class_='b').find(class_='notUnderline')['href']
+        more = QUICK_TICKETS_URL + c_elem.find(class_='more')['href']
+        buy = QUICK_TICKETS_URL + c_elem.find(class_='b').find(class_='notUnderline')['href']
 
         sessions = []
         sessions_elems = c_elem.find_all('div', attrs={'class': 'session-column'})
