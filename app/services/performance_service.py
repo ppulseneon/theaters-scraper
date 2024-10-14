@@ -1,4 +1,4 @@
-from app.domain.models.performance import Performance
+from app.domain.models.theatrical_performance import TheatricalPerformance
 
 
 class PerformanceService:
@@ -7,12 +7,12 @@ class PerformanceService:
     """
 
     @staticmethod
-    def get_all() -> list[Performance]:
-        performances = Performance.get(Performance.is_deleted is not True)
+    def get_all() -> list[TheatricalPerformance]:
+        performances = TheatricalPerformance.get(TheatricalPerformance.is_deleted is not True)
         return performances
 
     @staticmethod
     def get_active():
-        performances = Performance.get(Performance.is_deleted is not True
-                                       and Performance.is_expire is not True)
+        performances = TheatricalPerformance.get(TheatricalPerformance.is_deleted is not True
+                                                 and TheatricalPerformance.is_expire is not True)
         return performances

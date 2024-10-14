@@ -1,8 +1,8 @@
 from app.domain.models.base import database
-from app.domain.models.performance import Performance
+from app.domain.models.theatrical_performance import TheatricalPerformance
 from app.domain.models.theater import Theater
 
-tables = [Theater, Performance]
+tables = [Theater, TheatricalPerformance]
 
 """
     Инициализация базы данных, если она не создана

@@ -3,35 +3,36 @@ import datetime
 from peewee import AutoField, ForeignKeyField, CharField, DateTimeField, BooleanField
 
 from app.domain.models.base import BaseModel
-from app.domain.models.performance import Performance
+from app.domain.models.theatrical_performance import TheatricalPerformance
 
 
 class Review(BaseModel):
-    """
-        Модель объекта базы данных отзывов
+    def __init__(self):
+        """
+            Модель объекта базы данных отзывов
 
-        Attributes
-        ----------
-        id : AutoField
-            Id отзыва
-        performance : ForeignKeyField
-            Ключ представления, к которому оставлен отзыв
-        author : CharField
-            Имя автора
-        text : CharField
-            Содержимое отзыва
-        added_at : DateTimeField
-            Время добавления комментария на сайт для скрапа (изначальное)
-        created_at : DateTimeField
-            Время создания записи
-        is_deleted : BooleanField
-            Не удалена ли запись из базы
-    """
-
-    id = AutoField(primary_key=True)
-    performance = ForeignKeyField(Performance)
-    author = CharField()
-    text = CharField()
-    added_at = DateTimeField(null=True)
-    created_at = DateTimeField(default=datetime.datetime.now)
-    is_deleted = BooleanField(default=False)
+            Attributes
+            ----------
+            self.id : AutoField
+                Id отзыва
+            self.performance : ForeignKeyField
+                Ключ представления, к которому оставлен отзыв
+            self.author : CharField
+                Имя автора
+            self.text : CharField
+                Содержимое отзыва
+            self.added_at : DateTimeField
+                Время добавления комментария на сайт для скрапа (изначальное)
+            self.created_at : DateTimeField
+                Время создания записи
+            self.is_deleted : BooleanField
+                Не удалена ли запись из базы
+        """
+        super().__init__()
+        self.id = AutoField(primary_key=True)
+        self.performance = ForeignKeyField(TheatricalPerformance)
+        self.author = CharField()
+        self.text = CharField()
+        self.added_at = DateTimeField(null=True)
+        self.created_at = DateTimeField(default=datetime.datetime.now)
+        self.is_deleted = BooleanField(default=False)

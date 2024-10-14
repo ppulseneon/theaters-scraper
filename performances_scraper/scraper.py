@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from app.constants.scrap_type import ScrapTypes
-from app.domain.models.performance import Performance
+from app.domain.models.theatrical_performance import TheatricalPerformance
 from app.domain.models.theater import Theater
 from performances_scraper.constants import QUICKTICKETS_URL
 
@@ -12,7 +12,7 @@ class PerformancesScraper:
     def __init__(self, theaters):
         self.theaters = theaters
 
-    def scrap(self) -> list[Performance]:
+    def scrap(self) -> list[TheatricalPerformance]:
         results = []
         for theater in self.theaters:
             result = None
@@ -23,7 +23,7 @@ class PerformancesScraper:
 
         return results
 
-    def _scrap_by_quicktickets(self, theater: Theater) -> list[Performance] | None:
+    def _scrap_by_quicktickets(self, theater: Theater) -> list[TheatricalPerformance] | None:
         response = requests.get(theater.site_url, timeout=20)
 
         # todo: формировать результат в модель представления
@@ -38,13 +38,13 @@ class PerformancesScraper:
         list_elements = soup.find(id='elems-list')
         div_elements = list_elements.find_all('div')
         for div in div_elements:
-            subres = self.__parse_quicktickets_div(div)
+            subres = self.__parse_quick_tickets_div(div)
             if subres is not None:
                 result.append(subres)
         return result
 
     @staticmethod
-    def __parse_quick_tickets_div(div: bs4.element) -> Performance | None:
+    def __parse_quick_tickets_div(div: bs4.element) -> TheatricalPerformance | None:
         performance = {}
 
         c_elem = div.find(class_='c')
