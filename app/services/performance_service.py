@@ -1,5 +1,7 @@
 from app.domain.models.review import Review
+from app.domain.models.session import TheatricalSession
 from app.domain.models.theatrical_performance import TheatricalPerformance
+from app.services.session_service import SessionService
 
 
 class PerformanceService:
@@ -18,11 +20,20 @@ class PerformanceService:
     @staticmethod
     def get_active():
         """
-            Метод для получения активных представления
+            Метод для получения активных представлений
         """
-        performances = TheatricalPerformance.get(TheatricalPerformance.is_expired is not True
-                                and TheatricalPerformance.is_deleted is not True)
-        return performances
+
+        result = []
+
+        performances = TheatricalPerformance.get(TheatricalPerformance.is_deleted is not True)
+
+        for performance in performances:
+            sessions = SessionService.get_sessions(performance.id)
+
+            if len(sessions) > 0:
+                result.append(performance)
+
+        return result
 
     @staticmethod
     def get_reviews(performance_id: int):

@@ -29,13 +29,13 @@ class Review(BaseModel):
         is_deleted : BooleanField
             Не удалена ли запись из базы
     """
-    id = AutoField(primary_key=True)
-    performance_id = ForeignKeyField(TheatricalPerformance)
-    author = CharField()
-    text = CharField()
-    added_at = DateTimeField(null=True)
-    created_at = DateTimeField(default=datetime.datetime.now)
-    is_deleted = BooleanField(default=False)
+    id: AutoField = AutoField(primary_key=True)
+    performance_id: ForeignKeyField = ForeignKeyField(TheatricalPerformance)
+    author: CharField = CharField()
+    text: CharField = CharField()
+    added_at: DateTimeField = DateTimeField(null=True)
+    created_at: DateTimeField = DateTimeField(default=datetime.datetime.now)
+    is_deleted: BooleanField = BooleanField(default=False)
 
     @staticmethod
     def to_response_list(reviews: list['Review']) -> list[dict]:

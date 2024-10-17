@@ -33,17 +33,18 @@ class Theater(BaseModel):
         is_deleted : BooleanField
             Не удален ли театр из базы
     """
-    id = AutoField(primary_key=True)
-    title = CharField()
-    description = CharField(null=True)
-    site_url = CharField(null=True)
-    scrap_url = CharField()
-    scrap_type = EnumField(ScrapTypes)
-    image_url = CharField(null=True)
-    address = CharField(null=True)
-    contact_phone = CharField(null=True)
-    created_at = DateTimeField(default=datetime.datetime.now)
-    is_deleted = BooleanField(default=False)
+
+    id: AutoField = AutoField(primary_key=True)
+    title: CharField = CharField()
+    description: CharField = CharField(null=True)
+    site_url: CharField = CharField(null=True)
+    scrap_url: CharField = CharField()
+    scrap_type: EnumField = EnumField(ScrapTypes)
+    image_url: CharField = CharField(null=True)
+    address: CharField = CharField(null=True)
+    contact_phone: CharField = CharField(null=True)
+    created_at: DateTimeField = DateTimeField(default=datetime.datetime.now)
+    is_deleted: BooleanField = BooleanField(default=False)
 
     @staticmethod
     def to_response_list(theaters: list['Theater']) -> list[dict]:
