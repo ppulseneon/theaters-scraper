@@ -1,5 +1,5 @@
 from app.domain.models.session import TheatricalSession
-
+from peewee import AutoField
 
 class SessionService:
     """
@@ -7,7 +7,7 @@ class SessionService:
     """
 
     @staticmethod
-    def get_sessions(performance_id: int):
+    def get_sessions(performance_id: AutoField):
         """
             Метод для получения отзывов на представления
         """

@@ -1,6 +1,5 @@
 from time import sleep
 
-from app.domain.models.theatrical_performance import TheatricalPerformance
 from app.services.performance_service import PerformanceService
 from app.services.theater_service import TheaterService
 from performances_scraper.scraper import PerformancesScraper
@@ -29,13 +28,13 @@ class ScraperService:
 
 
     @staticmethod
-    def scrap_performances() -> list[TheatricalPerformance]:
+    def scrap_performances() -> list[dict[str, str | list]]:
         """
             Метод для получения актуальных представлений из театров
         """
         theaters = TheaterService.get_all()
 
         scraper = PerformancesScraper(theaters)
-        result = scraper.scrap()
+        result = scraper.scrap_multiple_theaters()
 
         return result

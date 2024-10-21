@@ -1,8 +1,7 @@
 from app.domain.models.review import Review
-from app.domain.models.session import TheatricalSession
 from app.domain.models.theatrical_performance import TheatricalPerformance
 from app.services.session_service import SessionService
-
+from peewee import AutoField
 
 class PerformanceService:
     """
@@ -36,7 +35,7 @@ class PerformanceService:
         return result
 
     @staticmethod
-    def get_reviews(performance_id: int):
+    def get_reviews(performance_id: AutoField):
         """
             Метод для получения отзывов на представления
         """

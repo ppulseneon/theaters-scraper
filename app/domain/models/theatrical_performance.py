@@ -2,7 +2,6 @@ import datetime
 from dataclasses import dataclass
 
 from peewee import AutoField, BooleanField, DateTimeField, CharField, IntegerField, ForeignKeyField
-from peewee import ForeignKeyField
 
 from app.domain.models.base import BaseModel
 from app.domain.models.review import Review
@@ -17,28 +16,23 @@ class TheatricalPerformance(BaseModel):
     """
         Модель объекта базы данных представления
 
-        Attributes
-        ----------
-        id : AutoField
-            Id представления
-        theater_id : ForeignKeyField
-            Театр, в котором будет представление
-        title : CharField
-            Название представления
-        type : CharField
-            Тип представления
-        description : CharField
-            Описание представления (nullable)
-        age_restrictions : IntegerField
-            Возрастные ограничения (nullable)
-        preview_url : CharField
-            Ссылка на превью (nullable)
-        self.created_at : DateTimeField
-            Время создание записи в базу данных
-        self.is_expired : BooleanField
-            Не прошло ли еще представление
-        self.is_deleted : BooleanField
-            Не удалена ли запись из базы данных
+        id : ID представления --> :class:`AutoField`
+
+        theater_id : Театр, в котором будет представление --> :class:`ForeignKeyField`
+
+        title : Название представления --> :class:`CharField`
+
+        type : Тип представления --> :class:`CharField`
+
+        description : Описание представления (nullable) --> :class:`CharField`
+
+        age_restrictions : Возрастные ограничения (nullable) --> :class:`CharField`
+
+        preview_url : Ссылка на превью (nullable) --> :class:`CharField`
+
+        created_at : Время создание записи в базу данных --> :class:`DateTimeField`
+
+        is_deleted : Не удалена ли запись из базы данных --> :class:`BooleanField`
             """
 
     id: AutoField = AutoField(primary_key=True)

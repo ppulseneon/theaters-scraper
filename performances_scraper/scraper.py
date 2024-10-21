@@ -2,29 +2,41 @@ import bs4
 import requests
 from bs4 import BeautifulSoup
 
-from app.enums.scrap_type import ScrapTypes
-from app.domain.models.theatrical_performance import TheatricalPerformance
 from app.domain.models.theater import Theater
+from app.enums.scrap_type import ScrapTypes
 from performances_scraper.constants import QUICK_TICKETS_URL
 
 
 class PerformancesScraper:
-    def __init__(self, theaters):
-        self.theaters = theaters
 
-    def scrap(self) -> list[TheatricalPerformance]:
+    def __init__(self, theaters: list | Theater):
+        """
+        :param theaters: Театры которые нужно обработать
+        """
+        self.theaters = [theaters] if isinstance(theaters, Theater) else theaters
+
+    def scrap_multiple_theaters(self) -> list[dict[str, str | list]]:
+        """
+
+        :return: данные о времени и стоимости билетов на выступления с нескольких театров
+        """
         results = []
         for theater in self.theaters:
             result = None
             if theater.scrap_type == ScrapTypes.quick_tickets:
-                result = self._scrap_by_quick_tickets(theater)
+                result = self.scrap_by_quick_tickets(theater)
             if result:
                 results.extend(result)
 
         return results
 
-    def _scrap_by_quick_tickets(self, theater: Theater) -> list[TheatricalPerformance] | None:
-        response = requests.get(theater.site_url, timeout=20)
+    def scrap_by_quick_tickets(self, theater: Theater) -> list[dict[str, str | list]] | None:
+        """
+        :param theater: Информация о конкретном театре. Подойдёт только quick tickets.
+        :return: Данные об активных представлениях.
+        """
+        theater_url = str(theater.site_url)
+        response = requests.get(theater_url, timeout=20)
 
         # todo: формировать результат в модель представления
         # todo: скрапить информацию непосредственно из more_ref для полноты картины
@@ -44,7 +56,12 @@ class PerformancesScraper:
         return result
 
     @staticmethod
-    def __parse_quick_tickets_div(div: bs4.element) -> TheatricalPerformance | None:
+    def __parse_quick_tickets_div(div: bs4.element) -> dict[str, str | list] | None:
+        """
+        Обработка каждого собранного div из elems-list
+        :param div: не нуждается в представлении
+        :return: В теории должен возвращать TheatricalPerformance класс
+        """
         performance = {}
 
         c_elem = div.find(class_='c')
